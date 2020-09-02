@@ -186,7 +186,7 @@ Config Setup for ```kibana.yml``` present at ```/etc/kibana/```:
 ```
 server.host : 0.0.0.0
 ```
-Open Kibana at ```public-ip:5601``` then go to stack management then saved object then click on Import and move the ```dashboard.json``` from this repo source directory there.
+Open Kibana at ```public-ip:5601``` then go to stack management then saved object then click on Import and move the ```dashboard.json``` from this repo dashboard directory there.
 ### Redshift Cluster Setup:
 Setup redhsift cluster from Amazon Redshift Console. Make sure the cluster is Publicly accessible, and redshift has proper roles and access to s3.
 
