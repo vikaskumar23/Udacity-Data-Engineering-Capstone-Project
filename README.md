@@ -130,7 +130,9 @@ sudo apt-get update && sudo apt-get install kibana
 ```
 Config Setup for ```elasticsearch.yml``` present at ```/etc/elasticsearch/```:
 ```
-server.host : 0.0.0.0
+network.host : 0.0.0.0
+discovery.seed_hosts : ["private-ip-of instance"]
+cluster.initial_master_nodes : ["private-ip-of instance"]
 ```
 Config Setup for ```kibana.yml``` present at ```/etc/kibana/```:
 ```
@@ -177,3 +179,11 @@ All the above tools used are together to handle large amount of datasets and cre
 ##### If the database needed to be accessed by 100+ people
 - Concurrency Scaling can be used with Redshift so that if required Redshift will automatically sacle up the clusters to meet the needs of concurrency.
 loyment by navigating to your server address in your preferred browser.
+
+## Refrences
+www.udacity.com/
+https://www.elastic.co/guide/en/elasticsearch/reference/current/deb.html
+https://docs.aws.amazon.com/
+https://airflow.apache.org/docs
+https://medium.com/@abraham.pabbathi/airflow-on-aws-ec2-instance-with-ubuntu-aff8d3206171
+https://www.kaggle.com/unsdsn/world-happiness
