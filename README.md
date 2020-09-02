@@ -205,7 +205,7 @@ wget "https://repo1.maven.org/maven2/org/postgresql/postgresql/42.2.14/postgresq
 ## Dashboard
 
 Snapshot of Final Dashboard
-![Dashboard](https://github.com/vikaskumar23/Udacity-Data-Engineering-Capstone-Project/blob/master/resources/Image%207.jpg)
+![Dashboard](https://github.com/vikaskumar23/Udacity-Data-Engineering-Capstone-Project/blob/master/images/Image%207.jpg)
 To access the live dashboard visit dashboard section of kibana accessible at ```public-ip-of-EC2:5601```
 
 ## Project Write Up
