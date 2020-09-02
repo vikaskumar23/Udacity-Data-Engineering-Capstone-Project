@@ -1,6 +1,6 @@
 # Udacity-Data-Engineering-Capstone-Project
 
-A capstone project is developed using big data tools like Spark, Redshift, ElasticSearch and airflow is used as orchestration tool to analyze trends in immigration data.
+A capstone project is completed using big data tools like Spark, Redshift, ElasticSearch and airflow is used as orchestration tool to analyze trends in immigration data.
 ## Introduction
 
 An ETL Procees is developed that fetch the data from Amazon S3, procees it and stores it in Amazon Redshift tables for analysis. Then data is pushed to ElasticSearch for analysis and visualizations are created in Kibana, which helps to analyze the trends in US Immigration. In this project immigration data is provided by udacity and happiness report is fetched from kaggle.
@@ -102,13 +102,15 @@ It has one fact table and 3 dimension tables.**
 3. Airflow triggers spark job on EMR cluster to load data from Redshift, join them and push data to Elasticsearch. 
 4. Airflow hits elasticsearch API to check data quality issues
 #### ETL Job Flow:
-![DAG Diagram](https://github.com/vikaskumar23/Udacity-Data-Engineering-Capstone-Project/blob/master/resources/DagImage.PNG)
+![DAG Diagram](https://github.com/vikaskumar23/Udacity-Data-Engineering-Capstone-Project/blob/master/images/DagPostRun.PNG)
+
+![DAG Successfull Diagram](https://github.com/vikaskumar23/Udacity-Data-Engineering-Capstone-Project/blob/master/images/dag_successful.png)
 1. Spark Clean Job fetch the immigration data from S3 and cleans the data for quality issues then save the cleaned data to s3.
 2. Tables are created in Redshift and data is loaded from s3 to staging tables.
 3. Facts and Dimension table are created and data is loaded from staging tables.
 4. Then a table is created by combining all the facts and dimension tables and the resulting table is then saved to S3.
 5. Then Spark Elastic job fetch data from Redshift and after some transformations data is pushed to elasticsearch.
-6. At last Dashboard is created from data present in ElasticSearch to see the trends.
+6. At the end Dashboard is created from data present in ElasticSearch to see the trends.
 ## Environment Required
 
 - 2 node cluster of m5x.large of Amazon EMR : To run spark Jobs for cleaning data and pushing data to elastic
@@ -116,16 +118,36 @@ It has one fact table and 3 dimension tables.**
 - t2.large 1 node EC2 instance : To run Airflow and setup ElasticSearch and Kibana
 
 ## Environment Setup
-
+### Directory Structure S3:
+- immigration data should be present at 
+	```
+	s3://bucket_name/immigration-data/i94_apr16_sub.sas7bdat
+	```
+- happiness data should be present at 
+	```
+	s3://bucket_name/happiness-data/2016.csv
+	```
+- country data should be present at 
+	```
+	s3://bucket_name/country.csv
+	```
+- visa data should be present at 
+	```
+	s3://bucket_name/visa.csv
+	```
+- mode data should be present at 
+	```
+	s3://bucket_name/mode.csv
+	```
 ### Environment Setup EC2:
 - Open inbound ports 5601, 9200, 8080 from security rules.
-- Fill the config file config.ini with the public ip of EC2 on which  Elasticsearch is installed.
 
 ##### Airflow Setup-
 1. To setup Airflow, this Medium Article can be referred: [Setup Airflow on Ubuntu EC2 Instance](https://medium.com/@abraham.pabbathi/airflow-on-aws-ec2-instance-with-ubuntu-aff8d3206171)
 2. Install ssh operator and ssh tunnel to use ssh operator
 ```
-pip install 'apache-airflow[ssh]' sshtunnel
+pip install 'apache-airflow[ssh]'
+pip install sshtunnel
 ```
 3. To use Livy Operator install airflow livy library
 ```
@@ -135,7 +157,7 @@ pip install apache-airflow-backport-providers-apache-livy[http]
 5. In Airflow webpage Connections create connection with AWS, Redshift and SSH for submitting spark jobs to EMR
     - **AWS:** Fill connection name as aws_credentials, connection type as 'Amazon Web Services' login and password with aws_access_key and aws_secret_access_key respectively.
     - **Redshift:** Fill Connection name as redshift, connection type as Postgres, schema as database name, user as db username, password as dbpassword, host as redshift cluster access URL and port as 5439.
-    - **SSH:** Fill host as public-ip of EMR, select connection type as SSH then in extras put
+    - **SSH:** Fill host as public-ip of EMR, select connection type as SSH, user as hadoop then in extras put
         ```
         {
         "key_file": "/path/to/key/access_key.pem",
@@ -143,6 +165,8 @@ pip install apache-airflow-backport-providers-apache-livy[http]
         "allow_host_key_change": "true"
         }
         ```
+6. Create a variable in web UI with variable name as **elastic** and its value is '''public-ip of ec2 instance''' on which elastic is installed.
+7. Create a variable in web UI with variable name as **bucket** and its value is '''s3 bucket name''' on which data is kept.
 ##### ElasticSearch And Kibana Setup-
 
 Use the below commands to install elasticsearch and Kibana:
@@ -168,6 +192,9 @@ Setup redhsift cluster from Amazon Redshift Console. Make sure the cluster is Pu
 
 ### EMR Cluster Setup:
 Move all the spark jobs to ```/home/hadoop/``` directory.
+Add the database credentials in the ```elastic_job.py```.
+Check for data input and output source in ```clean_job.py```, and make changes as required.
+
 And download the following jars there using the below commands in the ```/home/hadoop/``` directory:
 ```
 wget "https://repo1.maven.org/maven2/com/epam/parso/2.0.10/parso-2.0.10.jar"
@@ -199,10 +226,10 @@ All the above tools used are together to handle large amount of datasets and cre
 - The second approch could be that we can use NoSql databased like Cassandra, Elastic or Mongo etc.
 
 ##### If the pipelines were run on a daily basis by 7am
-- As the current architecture uses airflow to orchestrate the ETL jobs. So with the help of Airflow DAG will be scheduled to run jobs daily at 7 AM.
+- As the current architecture uses airflow to orchestrate the ETL jobs. So with the help of Airflow, DAG will be scheduled to run jobs daily at 7 AM.
 ##### If the database needed to be accessed by 100+ people
-- Concurrency Scaling can be used with Redshift so that if required Redshift will automatically sacle up the clusters to meet the needs of concurrency.
-loyment by navigating to your server address in your preferred browser.
+- Concurrency Scaling can be used with Redshift so that if required Redshift will automatically scale up the clusters to meet the needs of concurrency.
+
 
 ## References
 - www.udacity.com/
