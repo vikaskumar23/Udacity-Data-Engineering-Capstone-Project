@@ -1,12 +1,12 @@
 # Udacity-Data-Engineering-Capstone-Project
-___
+
 A capstone project is developed using big data tools like Spark, Redshift, ElasticSearch and airflow is used as orchestration tool to analyze trends in immigration data.
 ## Introduction
-___
+
 An ETL Procees is developed that fetch the data from Amazon S3, procees it and stores it in Amazon Redshift tables for analysis. Then data is pushed to ElasticSearch for analysis and visualizations are created in Kibana, which helps to analyze the trends in US Immigration. In this project immigration data is provided by udacity and happiness report is fetched from kaggle.
 
 ## Project Scope
-___
+
 The goal of this project is to analayze the trends in US Immigration and the factors affecting the trends. In this project data is prepared for anlaysis.
 Following trends can be analyzed:
 1. Proportion of Gender i.e. Count of Males and Females
@@ -21,7 +21,7 @@ Following trends can be analyzed:
 and many more ...
 
 ## Data Required for Project
-___
+
 #### There are 5 datasets that need to be used for this project:
 - **I94 Immigration Data:** This data comes from the US National Tourism and Trade Office.
     - Data consists of US immigration data for Jan-Dec 2016 - The April dataset will be used for this project
@@ -46,7 +46,7 @@ This dataset "World Happiness Report" is a landmark survey of the state of globa
     - This dataset contains the mode id and mode
 
 ## Explore and Assess the Data
-___
+
 ### The immigration data needs to be cleaned as it has many quality issues.
 **Following issues are fixed:**
 1. All the rows are removed that contain null values except airline as airline can have null value if mode is different than air.
@@ -57,7 +57,7 @@ ___
 6. Data types for fields are changed
 
 ## Data Model
-___
+
 **Star Schema for this project, as this schema is easily understandable and easy to use in joins.
 It has one fact table and 3 dimension tables.**
 ![DAG Diagram](https://github.com/vikaskumar23/Udacity-Data-Engineering-Capstone-Project/blob/master/resources/db_model.png)
@@ -74,7 +74,7 @@ It has one fact table and 3 dimension tables.**
 -   Visa and Mode data is loaded into visa and mode dimension table.
 
 ## ETL Process
-___
+
 #### Architecture
 ![Architecture](https://github.com/vikaskumar23/Udacity-Data-Engineering-Capstone-Project/blob/master/resources/Architecture.png)
 1. Airflow triggers the clean spark job on EMR Cluster
@@ -90,13 +90,13 @@ ___
 5. Then Spark Elastic job fetch data from Redshift and after some transformations data is pushed to elasticsearch.
 6. At last Dashboard is created from data present in ElasticSearch to see the trends.
 ## Environment Required
-___
+
 - 2 node cluster of m5x.large of Amazon EMR : To run spark Jobs for cleaning data and pushing data to elastic
 - 2 node cluster of dc2.large of Amazon Redshift : To store data in Relational Database
 - t2.large 1 node EC2 instance : To run Airflow and setup ElasticSearch and Kibana
 
 ## Environment Setup
-___
+
 ### Environment Setup EC2:
 - Open inbound ports 5601, 9200, 8080 from security rules.
 - Fill the config file config.ini with the public ip of EC2 on which  Elasticsearch is installed.
@@ -152,13 +152,13 @@ wget "https://oss.sonatype.org/content/repositories/snapshots/org/elasticsearch/
 wget "https://repo1.maven.org/maven2/org/postgresql/postgresql/42.2.14/postgresql-42.2.14.jar"
 ```
 ## Dashboard
-___
+
 Snapshot of Final Dashboard
 ![Dashboard](https://github.com/vikaskumar23/Udacity-Data-Engineering-Capstone-Project/blob/master/resources/Image%207.jpg)
 To access the live dashboard visit dashboard section of kibana accessible at ```public-ip-of-EC2:5601```
 
 ## Project Write Up
-___
+
 #### Rationale for the choice of tools and technologies for the project:
 This project uses many tools and technologies like:
 1. **Spark** : It is a big data technology to process and analyze data. It performs all tasks in parallel fashion. With this tool it is easy to handle large datasets.
@@ -181,9 +181,9 @@ All the above tools used are together to handle large amount of datasets and cre
 loyment by navigating to your server address in your preferred browser.
 
 ## Refrences
-www.udacity.com/
-https://www.elastic.co/guide/en/elasticsearch/reference/current/deb.html
-https://docs.aws.amazon.com/
-https://airflow.apache.org/docs
-https://medium.com/@abraham.pabbathi/airflow-on-aws-ec2-instance-with-ubuntu-aff8d3206171
-https://www.kaggle.com/unsdsn/world-happiness
+- www.udacity.com/
+- https://www.elastic.co/guide/en/elasticsearch/reference/current/deb.html
+- https://docs.aws.amazon.com/
+- https://airflow.apache.org/docs
+- https://medium.com/@abraham.pabbathi/airflow-on-aws-ec2-instance-with-ubuntu-aff8d3206171
+- https://www.kaggle.com/unsdsn/world-happiness
