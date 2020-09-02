@@ -32,9 +32,10 @@ and many more ...
     - Data consists from 2015-2019 - The 2016 dataset will be used for this project.
     - Source of Dataset: https://www.kaggle.com/unsdsn/world-happiness
 This dataset "World Happiness Report" is a landmark survey of the state of global happiness. It contains data like happiness rank, economy, happiness score, region etc. for each country.
+	- This Happiness data is present in resources directory as **2016.csv**.
 
 - **I94 Country Data:** This data is created from data dictionary provided by udacity for Immigration Data.
-    - This country data is present in resources directory as "country.csv".
+    - This country data is present in resources directory as **country.csv**.
     - This dataset contains the country id and country name
 
 - **I94 Visa Data:** This data is created from data dictionary provided by udacity for Immigration Data.
@@ -62,11 +63,30 @@ This dataset "World Happiness Report" is a landmark survey of the state of globa
 It has one fact table and 3 dimension tables.**
 ![DAG Diagram](https://github.com/vikaskumar23/Udacity-Data-Engineering-Capstone-Project/blob/master/resources/db_model.png)
 #### Fact Table
-- **Immigration Fact Table**
+- **Immigration Fact Table**-immigration_fact
+	- **id:** unique id of immigrant
+	- **arrival_date:** date at which the immigrant visits US
+	- **departure_date:** date at which the immigrant goes back to its own country
+	- **arrival_country:** country id from which the immigrant arrives
+	- **age:** age of the immigrant
+	- **gender:** gender of the immigrant
+	- **visa_type:** visa typw/purpose of immigrant
+	- **mode:** mode of transport to reach US
+	- **airline:** airline used to reach US
+	- **duration:** days spend in US
 #### Dimension Table
-- **Happiness Dimension Table**
-- **Visa Dimension Table**
-- **Mode Dimension Table**
+- **Happiness Dimension Table**-happiness_dim
+	- **id:** country id
+	- **country:** name of country
+	- **region:** region of country
+	- **happiness_score:** happiness score of country
+	- **economy:** -economy score of country
+- **Visa Dimension Table**-visa_dim
+	- **id:** id of visa type
+	- **visa:** visa type
+- **Mode Dimension Table**-mode_dim
+	- **id:** id of mode type
+	- **mode:** mode type
 
 #### Steps necessary to pipeline the data into the chosen data model:
 -   First the immigration data is cleaned with the help of spark job and loaded into redshift table.
@@ -104,9 +124,13 @@ It has one fact table and 3 dimension tables.**
 ##### Airflow Setup-
 1. To setup Airflow, this Medium Article can be referred: [Setup Airflow on Ubuntu EC2 Instance](https://medium.com/@abraham.pabbathi/airflow-on-aws-ec2-instance-with-ubuntu-aff8d3206171)
 2. Install ssh operator and ssh tunnel to use ssh operator
-```pip install 'apache-airflow[ssh]' sshtunnel```
+```
+pip install 'apache-airflow[ssh]' sshtunnel
+```
 3. To use Livy Operator install airflow livy library
-```pip install apache-airflow-backport-providers-apache-livy[http]```
+```
+pip install apache-airflow-backport-providers-apache-livy[http]
+```
 4. Move the dags and plugins  from this repo to airflow directory ```/home/airflow/airflow/``` on EC2
 5. In Airflow webpage Connections create connection with AWS, Redshift and SSH for submitting spark jobs to EMR
     - **AWS:** Fill connection name as aws_credentials, connection type as 'Amazon Web Services' login and password with aws_access_key and aws_secret_access_key respectively.
@@ -180,7 +204,7 @@ All the above tools used are together to handle large amount of datasets and cre
 - Concurrency Scaling can be used with Redshift so that if required Redshift will automatically sacle up the clusters to meet the needs of concurrency.
 loyment by navigating to your server address in your preferred browser.
 
-## Refrences
+## References
 - www.udacity.com/
 - https://www.elastic.co/guide/en/elasticsearch/reference/current/deb.html
 - https://docs.aws.amazon.com/
