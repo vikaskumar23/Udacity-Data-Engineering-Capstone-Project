@@ -61,7 +61,7 @@ This dataset "World Happiness Report" is a landmark survey of the state of globa
 
 **Star Schema for this project, as this schema is easily understandable and easy to use in joins.
 It has one fact table and 3 dimension tables.**
-![DAG Diagram](https://github.com/vikaskumar23/Udacity-Data-Engineering-Capstone-Project/blob/master/resources/db_model.png)
+![DAG Diagram](https://github.com/vikaskumar23/Udacity-Data-Engineering-Capstone-Project/blob/master/images/db_model.png)
 #### Fact Table
 - **Immigration Fact Table**-immigration_fact
 	- **id:** unique id of immigrant
@@ -96,7 +96,7 @@ It has one fact table and 3 dimension tables.**
 ## ETL Process
 
 #### Architecture
-![Architecture](https://github.com/vikaskumar23/Udacity-Data-Engineering-Capstone-Project/blob/master/resources/Architecture.png)
+![Architecture](https://github.com/vikaskumar23/Udacity-Data-Engineering-Capstone-Project/blob/master/images/Architecture.png)
 1. Airflow triggers the clean spark job on EMR Cluster
 2. Airflow triggers Redshift to create tables and load data from S3, and check for data quality issues
 3. Airflow triggers spark job on EMR cluster to load data from Redshift, join them and push data to Elasticsearch. 
